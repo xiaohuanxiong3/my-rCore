@@ -1,0 +1,12 @@
+[package]
+name = "os"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# 内核应该如何调用 RustSBI 提供的服务呢？通过函数调用是行不通的，因为内核并没有和 RustSBI 链接到一起，我们仅仅使用 RustSBI 构建后的可执行文件，
+# 因此内核无从得知 RustSBI 中的符号或地址。
+# 幸而， RustSBI 开源社区的 sbi_rt 封装了调用 SBI 服务的接口，我们直接使用即可
+# 这里需要带上 legacy 的 feature，因为我们需要用到的串口读写接口都属于 SBI 的遗留接口。
+sbi-rt = {version = "0.0.2", features = ["legacy"]}
+log = {version = '0.4'}
